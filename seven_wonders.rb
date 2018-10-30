@@ -3,12 +3,15 @@ require 'httparty'
 #Starter Code:
 seven_wonders = ["Great Pyramid of Giza", "Hanging Gardens of Babylon", "Colossus of Rhodes", "Pharos of Alexandria", "Statue of Zeus at Olympia", "Temple of Artemis", "Mausoleum at Halicarnassus"]
 
+seven_wonders_hash = Hash.new
+seven_wonders.each do |wonder|
+  response = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?key=GOOGLEAPIKEY&address=#{wonder}")
+  parsed_response = response.parsed_response
 
+  seven_wonders_hash[wonder] = {"lat"=>parsed_response["results"][0]["geometry"]["location"]["lat"], "lng"=>parsed_response["results"][0]["geometry"]["location"]["lng"]}
+end
 
-
-
-
-
+puts seven_wonders_hash
 
 
 #Example Output:
